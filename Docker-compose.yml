@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   fastapi-prediccion:
     build: .
@@ -11,3 +9,5 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
+
+

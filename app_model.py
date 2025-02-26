@@ -43,17 +43,32 @@ async def test_predict_endpoint(prediction_data: dict):
         "prediction": prediction
         }
 
-
+# TypeError: Object of type OperationalError is not JSON serializable
 # 2. Endpoint de ingesta de datos
 
 @app.post("/ingest/")
 async def test_ingest_endpoint(data: dict):  
-    data_list = data.get("data", [])
-    for row in data_list:
-        cursor.execute('INSERT INTO prediccion_anuncios (TV, radio, newpaper, sales) VALUES (?, ?, ?, ?)',
-                           (row[0], row[1], row[2], row[3]))
-    conn.commit()
-    return {'message': 'Datos ingresados correctamente'}
+    try:    
+        data_list = data.get("data")
+        cursor.executemany('INSERT INTO Advertising (TV, Radio, Newspaper, Sales) VALUES (?, ?, ?, ?)',
+                            (data_list))
+        conn.commit()
+        return {'message': 'Datos ingresados correctamente'}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=e)
+    
+
+""" @app.post("/ingest/")
+async def test_ingest_endpoint(data: dict):  
+    try:    
+        data_list = data.get("data", [])
+        for row in data_list:
+            cursor.execute('INSERT INTO prediccion_anuncios (TV, radio, newpaper, sales) VALUES (?, ?, ?, ?)',
+                            (row[0], row[1], row[2], row[3]))
+        conn.commit()
+        return {'message': 'Datos ingresados correctamente'}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=e) """
 
 
 
@@ -61,7 +76,7 @@ async def test_ingest_endpoint(data: dict):
 
 @app.post("/retrain")
 async def test_retrain_endpoint():
-    cursor.execute('SELECT TV, radio, newspaper, sales FROM prediccion_anuncios')
+    cursor.execute('SELECT TV, Radio, Newspaper, Sales FROM Advertising')
     tabla = cursor.fetchall()
     df = pd.DataFrame(tabla, columns=['TV', 'radio', 'newspaper', 'sales'])
     X = df[['TV', 'radio', 'newspaper']]
