@@ -36,11 +36,15 @@ Pasos para usar la imagen de Docker:
 
 Descarga la imagen desde Docker Hub:
 
-docker pull tu-usuario/nombre-repositorio:latest
+```bash
+docker pull vanessalop/modelo_api-fastapi-app:latest
+```
 
 Ejecuta el contenedor:
 
-docker run -p 8000:8000 tu-usuario/nombre-repositorio
+```bash
+docker run -p 8000:8000 vanessalop/modelo_api-fastapi-app
+```
 
 La API estará disponible en http://127.0.0.1:8000. 🌐
 
@@ -50,7 +54,9 @@ Ejecutar la API
 
 Para ejecutar la API, usa el siguiente comando:
 
+```bash
 uvicorn app_model:app --reload
+```
 
 La API estará disponible en http://127.0.0.1:8000. 🌐
 
@@ -60,56 +66,72 @@ La API estará disponible en http://127.0.0.1:8000. 🌐
 
 Método: POST
 
+```bash
 Ruta: /predict
+```
 
 Descripción: Realiza una predicción de ventas basada en los datos de anuncios proporcionados.
 
 📂 Ejemplo de solicitud:
 
+```json
 {
   "data": [[100, 50, 25]]
 }
+```
 
 📂 Ejemplo de respuesta:
 
+```json
 {
   "input": {"TV": 100, "radio": 50, "newspaper": 25},
   "prediction": 15.3
 }
+```
 
 2. Endpoint de Ingesta de Datos 💚
 
 Método: POST
 
+```bash
 Ruta: /ingest/
+```
 
 Descripción: Permite ingresar nuevos datos de anuncios y ventas en la base de datos.
 
 📂 Ejemplo de solicitud:
 
+```json
 {
   "data": [[100, 50, 25, 15.3], [200, 30, 40, 20.5]]
 }
+```
 
 📂 Ejemplo de respuesta:
 
+```json
 {
   "message": "Datos ingresados correctamente"
 }
+```
 
 3. Endpoint de Reentrenamiento del Modelo 🔄
 
 Método: POST
 
+```bash
 Ruta: /retrain
+```
 
 Descripción: Reentrena el modelo de predicción utilizando todos los datos disponibles en la base de datos.
 
 📂 Ejemplo de respuesta:
 
+```json
 {
   "message": "Modelo reentrenado correctamente."
 }
+```
 
 💃 Base de Datos
 
