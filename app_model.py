@@ -6,6 +6,7 @@ import pickle
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 import pandas as pd
+from typing import List
 
 app = FastAPI()
 
